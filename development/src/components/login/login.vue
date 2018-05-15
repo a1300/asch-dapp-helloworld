@@ -11,15 +11,17 @@
         <sui-form v-on:submit.prevent="onSubmit">
           <sui-segment stacked>
             <sui-form-field>
+              <label v-show="!$v.secret.$invalid" for="secret">Secret</label>
+              <label style="color: rgb(219, 40, 40)" v-show="$v.secret.$invalid" for="secret">This Secret is not BIP39 complient</label>
               <sui-input
+              id="secret"
               type="password"
               placeholder="Secret"
               icon="lock"
               icon-position="left"
               v-model="secret"
-              :warning="$v.secret.$invalid" inverted />
+              :error="$v.secret.$invalid" />
             </sui-form-field>
-            <!-- <sui-button @click="login" size="large" fluid>Login</sui-button> -->
             <sui-button @click="login" size="large" fluid animated class="primary"
                         :disabled="$v.secret.$invalid">
               <sui-button-content visible>Login</sui-button-content>
@@ -39,7 +41,7 @@
 <script>
 import { required } from 'vuelidate/lib/validators'
 import aschJS from 'asch-js'
-console.log(aschJS)
+import Mnemonic from 'bitcore-mnemonic'
 export default {
   name: 'login',
   data: function () {
@@ -49,19 +51,15 @@ export default {
   },
   methods: {
     login: async function () {
-      console.log(this.$v.secret)
+      let that = this
+      let secret = this.secret
+      let succeeded = await this.$store.dispatch('getUserInfo', { that, secret, aschJS })
 
-      // let that = this
-      // let secret = this.secret
-      // let succeeded = await this.$store.dispatch('getUserInfo', { that, secret, aschJS })
-      // // test
-      // debugger
-      // console.log(this.$v)
-      // if (succeeded) {
-      //   this.$router.push('/')
-      // } else {
-      //   console.log('show some modal error massage')
-      // }
+      if (succeeded) {
+        this.$router.push('/')
+      } else {
+        this.$noty.error('Could not load user data')
+      }
     },
     onSubmit: function () {
       console.log('trying to prevent on submit')
@@ -69,7 +67,10 @@ export default {
   },
   validations: {
     secret: {
-      required
+      required,
+      isBip39: function (value) {
+        return Mnemonic.isValid(this.secret)
+      }
     }
   }
 }
