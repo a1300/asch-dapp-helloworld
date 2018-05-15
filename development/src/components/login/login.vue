@@ -16,10 +16,12 @@
               placeholder="Secret"
               icon="lock"
               icon-position="left"
-              v-model="secret" />
+              v-model="secret"
+              :warning="$v.secret.$invalid" inverted />
             </sui-form-field>
             <!-- <sui-button @click="login" size="large" fluid>Login</sui-button> -->
-            <sui-button @click="login" size="large" fluid animated class="primary">
+            <sui-button @click="login" size="large" fluid animated class="primary"
+                        :disabled="$v.secret.$invalid">
               <sui-button-content visible>Login</sui-button-content>
               <sui-button-content hidden>
                 <sui-image height="20px" class="centered" src="static/images/logo.png"/>
@@ -35,7 +37,9 @@
 </template>
 
 <script>
+import { required } from 'vuelidate/lib/validators'
 import aschJS from 'asch-js'
+console.log(aschJS)
 export default {
   name: 'login',
   data: function () {
@@ -45,18 +49,27 @@ export default {
   },
   methods: {
     login: async function () {
-      let that = this
-      let secret = this.secret
-      let succeeded = await this.$store.dispatch('getUserInfo', { that, secret, aschJS })
+      console.log(this.$v.secret)
 
-      if (succeeded) {
-        this.$router.push('/')
-      } else {
-        console.log('show some modal error massage')
-      }
+      // let that = this
+      // let secret = this.secret
+      // let succeeded = await this.$store.dispatch('getUserInfo', { that, secret, aschJS })
+      // // test
+      // debugger
+      // console.log(this.$v)
+      // if (succeeded) {
+      //   this.$router.push('/')
+      // } else {
+      //   console.log('show some modal error massage')
+      // }
     },
     onSubmit: function () {
       console.log('trying to prevent on submit')
+    }
+  },
+  validations: {
+    secret: {
+      required
     }
   }
 }

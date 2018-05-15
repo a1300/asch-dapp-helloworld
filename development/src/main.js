@@ -14,6 +14,7 @@ import aschTimeFilter from './utils/aschTimeFilter'
 import transWithdrawArgsFilter from './utils/transWithdrawArgsFilter'
 import * as ModalDialogs from 'vue-modal-dialogs'
 import VueNoty from 'vuejs-noty'
+import Vuelidate from 'vuelidate'
 
 Vue.filter('truncate', filter)
 Vue.filter('aschTime', aschTimeFilter)
@@ -23,6 +24,7 @@ Vue.use(ModalDialogs)
 Vue.use(VueNoty, {
   theme: 'relax'
 })
+Vue.use(Vuelidate)
 
 console.log(aschJS)
 Vue.use(SuiVue)
