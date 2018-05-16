@@ -4,14 +4,16 @@
     <!--searchbar-->
     <div>
 
-      <sui-form v-on:submit.prevent="onSubmit">
+      <sui-form v-on:submit.prevent>
 
         <sui-grid :columns="3">
           <sui-grid-row>
 
             <sui-grid-column :width="10">
               <sui-form-field>
-                <input :placeholder="currentOption" v-model="searchString" @focus="$event.target.select()">
+                <sui-input :placeholder="currentOption"
+                           v-model="searchString"
+                           @keydown.enter.prevent="search" autofocus></sui-input>
               </sui-form-field>
             </sui-grid-column>
 
@@ -22,12 +24,14 @@
                 selection
                 value="domain"
                 v-model="currentOption"
-                :options="searchOptions" />
+                :options="searchOptions"
+                openOnFocus/>
             </sui-grid-column>
 
             <sui-grid-column :width="2">
               <sui-form-field>
-                <sui-button :disabled="$v.searchString.$invalid" @click="search">Search</sui-button>
+                <sui-button :disabled="$v.searchString.$invalid"
+                            @click="search">Search</sui-button>
               </sui-form-field>
             </sui-grid-column>
 
@@ -108,8 +112,6 @@ export default {
     this.domains = []
   },
   methods: {
-    onSubmit: function () {
-    },
     search: async function () {
       let that = this
       let result = ''
