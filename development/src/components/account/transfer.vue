@@ -6,6 +6,13 @@
 
       <sui-form v-on:submit.prevent="submit">
         <sui-form-field>
+          <label>Sender</label>
+          <sui-input disabled
+                     class="ui inverted"
+                     :value="ownAddress"></sui-input>
+        </sui-form-field>
+
+        <sui-form-field>
           <label v-show="!$v.recipientAddress.$invalid">Recipient</label>
           <label v-show="$v.recipientAddress.$invalid" style="color: rgb(219, 40, 40)">Invalid recipient address</label>
           <sui-input placeholder="address"
