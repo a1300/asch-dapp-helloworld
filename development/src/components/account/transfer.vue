@@ -39,8 +39,7 @@
                       v-model="amount"
                       placeholder="amount"
                       :disabled="$v.selectedCoin.$invalid"
-                      :error="$v.amount.$invalid"
-                      v-bind:class="{ 'error-text': $v.amount.$invalid === true }"></sui-input>
+                      :error="$v.amount.$invalid"></sui-input>
           </div>
         </sui-form-field>
 
@@ -203,9 +202,5 @@ export default {
 <style scoped>
 .primary-color {
   color: #1678c2;
-}
-
-.error-text {
-  color: rgb(219, 40, 40) !important;
 }
 </style>

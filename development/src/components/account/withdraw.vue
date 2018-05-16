@@ -5,7 +5,8 @@
       <h3>Withdraw</h3>
       <sui-form v-on:submit.prevent="submit">
         <sui-form-field>
-          <label>Currency</label>
+          <label v-show="!$v.selectedCoin.$invalid">Currency</label>
+          <label v-show="$v.selectedCoin.$invalid" style="color: rgb(219, 40, 40)">Invalid currency</label>
           <sui-dropdown class="labeled icon inverted"
                         icon="currency"
                         placeholder="currency"
@@ -22,16 +23,19 @@
               <p v-if="!selectedCoin">COIN</p>
               <p v-else>{{selectedCoin}}</p>
             </div>
-            <input type="text"
+            <input type="number" step="any" min="0"
                    v-model="amount"
                    placeholder="amount"
-                   :disabled="selectedCoin === null || selectedCoin === ''">
+                   :disabled="$v.selectedCoin.$invalid"
+                   :error="$v.amount.$invalid">
           </div>
         </sui-form-field>
 
         <br/>
         <sui-form-field>
-          <sui-button @click="withdraw" class="ui button primary">Transfer</sui-button>
+          <sui-button @click="withdraw"
+                      class="ui button primary"
+                      :disabled="$v.$invalid">Withdraw</sui-button>
         </sui-form-field>
 
       </sui-form>
@@ -68,6 +72,7 @@
 </template>
 
 <script>
+import { required } from 'vuelidate/lib/validators'
 import { create } from 'vue-modal-dialogs'
 import questiondialog from '../modal/questiondialog'
 import aschJS from 'asch-js'
@@ -125,10 +130,22 @@ export default {
           this.$noty.success(`Dapp withdrawal of ${this.amount} ${this.selectedCoin} was successful!`)
           this.selectedCoin = ''
           this.amount = ''
+          this.$router.push('/account')
         } else {
           this.$noty.error(`<b>${result.error}</b>`)
         }
       }
+    }
+  },
+  validations: {
+    selectedCoin: {
+      required,
+      isValid: function (value) {
+        return value.length > 1
+      }
+    },
+    amount: {
+      required
     }
   }
 }

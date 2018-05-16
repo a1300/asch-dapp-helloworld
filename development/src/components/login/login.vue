@@ -12,7 +12,8 @@
           <sui-segment stacked>
             <sui-form-field>
               <label v-show="!$v.secret.$invalid" for="secret">Secret</label>
-              <label style="color: rgb(219, 40, 40)" v-show="$v.secret.$invalid" for="secret">This Secret is not BIP39 complient</label>
+              <label style="color: rgb(219, 40, 40)"
+                     v-show="$v.secret.$invalid">This Secret is not BIP39 complient</label>
               <sui-input
               id="secret"
               type="password"
@@ -20,7 +21,8 @@
               icon="lock"
               icon-position="left"
               v-model="secret"
-              :error="$v.secret.$invalid" />
+              :error="$v.secret.$invalid"
+              readonly onfocus="this.removeAttribute('readonly');"/>
             </sui-form-field>
             <sui-button @click="login" size="large" fluid animated class="primary"
                         :disabled="$v.secret.$invalid">
