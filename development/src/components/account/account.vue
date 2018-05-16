@@ -62,12 +62,16 @@
             <div class="two column row">
               <div class="column right aligned">
                   <div class="ui input">
-                    <input type="text" placeholder="nickname not set" v-model="newNickname">
+                    <input type="text"
+                          placeholder="nickname not set"
+                           v-model="newNickname"
+                           :warning="$v.newNickname.$invalid"
+                           :error="$v.newNickname.$invalid">
                 </div>
               </div>
 
               <div class="column left aligned">
-                <sui-button @click="setNickname" animated>
+                <sui-button @click="setNickname" animated :disabled="$v.newNickname.$invalid">
                   <sui-button-content visible>
                     <i class="icon user"></i>
                     Input nickname
@@ -123,6 +127,13 @@ export default {
         } else {
           this.$noty.error(result.error)
         }
+      }
+    }
+  },
+  validations: {
+    newNickname: {
+      length: function (value) {
+        return value.length > 0 && value.length < 256
       }
     }
   }

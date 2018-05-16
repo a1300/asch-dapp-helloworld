@@ -4,12 +4,17 @@
     <div class="ui segment">
       <sui-form v-on:submit.prevent="submit">
         <sui-form-field>
-          <label>IP-Address</label>
-          <input :disabled="!active" v-model="ip" placeholder="ip-address">
+          <label v-if="!$v.ip.$invalid">IP-Address</label>
+          <label v-if="$v.ip.$invalid" style="color: rgb(219, 40, 40)">Incorrect IP-Address</label>
+          <input :disabled="!active"
+                 v-model="ip"
+                 placeholder="ip-address"
+                 :warning="$v.ip.$invalid"
+                 :error="$v.ip.$invalid">
         </sui-form-field>
 
         <sui-form-field>
-          <sui-button :disabled="!active" @click="setIp">Add</sui-button>
+          <sui-button :disabled="!active || $v.ip.$invalid" @click="setIp">Add</sui-button>
         </sui-form-field>
       </sui-form>
     </div>
@@ -17,6 +22,7 @@
 </template>
 
 <script>
+import { required, ipAddress } from 'vuelidate/lib/validators'
 import { create } from 'vue-modal-dialogs'
 import questiondialog from '../modal/questiondialog'
 const areYouSure = create(questiondialog)
@@ -60,6 +66,12 @@ export default {
           this.$noty.error(result.error)
         }
       }
+    }
+  },
+  validations: {
+    ip: {
+      required,
+      ipAddress
     }
   }
 }

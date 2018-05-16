@@ -4,13 +4,16 @@
     <div class="ui segment">
       <sui-form v-on:submit.prevent="submit">
         <sui-form-field>
-          <label>Address</label>
+          <label v-if="!$v.domain.$invalid">Address</label>
+          <label v-if="$v.domain.$invalid" style="color: rgb(219, 40, 40)" >Incorrect URL</label>
           <sui-input placeholder="address"
                     v-model="domain"
-                    :disabled="!active"></sui-input>
+                    :disabled="!active"
+                    :error="$v.domain.$invalid"
+                    :warning="$v.domain.$invalid"></sui-input>
         </sui-form-field>
         <sui-form-field>
-          <sui-button :disabled="!active" @click="register">Add</sui-button>
+          <sui-button :disabled="!active || $v.domain.$invalid" @click="register">Add</sui-button>
         </sui-form-field>
       </sui-form>
     </div>
@@ -18,6 +21,7 @@
 </template>
 
 <script>
+import { required } from 'vuelidate/lib/validators'
 import { create } from 'vue-modal-dialogs'
 import questionDialog from '../modal/questiondialog'
 
@@ -57,6 +61,17 @@ export default {
         } else {
           this.$noty.error(`<b>Registration of ${this.domain} failed.</b>`)
         }
+      }
+    }
+  },
+  validations: {
+    domain: {
+      required,
+      url: function (value) {
+        // eslint-disable-next-line
+        var expression = /[-a-zA-Z0-9@:%_\+.~#?&//=]{2,256}\.[a-z]{2,4}\b(\/[-a-zA-Z0-9@:%_\+.~#?&//=]*)?/gi
+        var regex = new RegExp(expression)
+        return regex.test(value)
       }
     }
   }
