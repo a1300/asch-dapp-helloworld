@@ -33,7 +33,6 @@ Vue.prototype.$axios = axios.create({
   baseURL: process.env.API_ENDPOINT
 })
 
-console.log(store)
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
