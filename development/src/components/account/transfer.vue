@@ -6,14 +6,19 @@
 
       <sui-form v-on:submit.prevent="submit">
         <sui-form-field>
-          <label>Recipient</label>
+          <label v-show="!$v.recipientAddress.$invalid">Recipient</label>
+          <label v-show="$v.recipientAddress.$invalid" style="color: rgb(219, 40, 40)">Invalid recipient address</label>
           <sui-input placeholder="address"
                      class="ui inverted"
-                     v-model="recipientAddress"></sui-input>
+                     v-model="recipientAddress"
+                     :error="$v.recipientAddress.$invalid"
+                     :warning="$v.recipientAddress.$invalid"></sui-input>
         </sui-form-field>
 
         <sui-form-field>
-          <label>Currency</label>
+          <label v-show="!$v.selectedCoin.$invalid">Currency</label>
+          <label v-show="$v.selectedCoin.$invalid"
+                 style="color: rgb(219, 40, 40)">Invalid currency</label>
           <sui-dropdown class="labeled icon inverted"
                         icon="currency"
                         placeholder="currency"
@@ -30,14 +35,21 @@
               <p v-if="!selectedCoin">COIN</p>
               <p v-else>{{selectedCoin}}</p>
             </div>
-            <input type="text" v-model="amount" placeholder="amount">
+            <sui-input type="number" step="any" min="0"
+                      v-model="amount"
+                      placeholder="amount"
+                      :disabled="$v.selectedCoin.$invalid"
+                      :error="$v.amount.$invalid"
+                      v-bind:class="{ 'error-text': $v.amount.$invalid === true }"></sui-input>
           </div>
         </sui-form-field>
 
         <br/>
 
         <sui-form-field>
-          <sui-button @click="inTransfer" class="ui button primary">Transfer</sui-button>
+          <sui-button @click="inTransfer"
+                      class="ui button primary"
+                      :disabled="$v.$invalid">Transfer</sui-button>
         </sui-form-field>
 
       </sui-form>
@@ -92,6 +104,7 @@
 </template>
 
 <script>
+import { required } from 'vuelidate/lib/validators'
 import aschJS from 'asch-js'
 import { create } from 'vue-modal-dialogs'
 import questiondialog from '../modal/questiondialog'
@@ -143,6 +156,7 @@ export default {
           this.recipientAddress = ''
           this.selectedCoin = ''
           this.amount = ''
+          this.$router.push('/account')
         } else {
           this.$noty.error(`<b>${result.error}</b>`)
         }
@@ -161,6 +175,27 @@ export default {
       this.transfers.push(sendTransfers.transfers[i])
     }
     console.log(sendTransfers)
+  },
+  validations: {
+    recipientAddress: {
+      required,
+      isValid: function (value) {
+        this.$v.recipientAddress.$touch()
+        // address is in form 16061381710736106488 or in form AGPsWetD3c19UTfuoHCQAeEhT5rXkui8bd
+        let expression = /([a-z|0-9|A-Z]{34})$|(^[0-9]{20}$)/
+        var regex = new RegExp(expression)
+        return regex.test(value)
+      }
+    },
+    selectedCoin: {
+      required,
+      isValid: function (value) {
+        return value.length > 1
+      }
+    },
+    amount: {
+      required
+    }
   }
 }
 </script>
@@ -168,5 +203,9 @@ export default {
 <style scoped>
 .primary-color {
   color: #1678c2;
+}
+
+.error-text {
+  color: rgb(219, 40, 40) !important;
 }
 </style>
