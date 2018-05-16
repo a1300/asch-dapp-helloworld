@@ -24,7 +24,7 @@ let actions = {
           nickname = result.data.account.extra.str1
         }
         commit('setUserInfo', { secret, address, balances, nickname })
-        return true
+        return { success: true }
       } else {
         return { success: false, error: REQUEST_ERROR }
       }

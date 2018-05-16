@@ -5,7 +5,6 @@ let mutations = {
     state.userInfo.address = address
     state.userInfo.balances = balances
     state.userInfo.nickname = nickname
-
     state.isLogin = true
   },
   userLogout: function (state) {

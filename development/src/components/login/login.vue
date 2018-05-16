@@ -55,9 +55,9 @@ export default {
     login: async function () {
       let that = this
       let secret = this.secret
-      let succeeded = await this.$store.dispatch('getUserInfo', { that, secret, aschJS })
+      let result = await this.$store.dispatch('getUserInfo', { that, secret, aschJS })
 
-      if (succeeded) {
+      if (result.success && result.success === true) {
         this.$router.push('/')
       } else {
         this.$noty.error('Could not load user data')

@@ -26,22 +26,10 @@ For a better developer experience install the Vue-Devtools for [Chrome](https://
  
 
 TODO
-- Enable login only for BIP39 complient secrets
-- log out button
-- Form validation for
- - password
- - set nickname
- - withdrawal
- - trasfer
 - Show message when navigating to extern website (e.g. mainnet)
-- Enable forwarding in `<dapp id>/public/index.html`
-- It should be only possible to register addresses, and set IP-Address when the user is logged in
-- Is it possible to set ip of Address that was not registered by me?
+- Is it possible to set ip of Address that were not registered by me?
 - Add new interface to paged
 - Use pathify instead of pure vuex
-- Style header items
-- Registerdomain.vue component must be created every time
-  - ui of registerdomain/setip is not finished!
 - set Magic on http PUT verb
 - style notfound component
 - Refresh user balance after transfer and withdrawal

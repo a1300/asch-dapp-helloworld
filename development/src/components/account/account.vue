@@ -88,6 +88,7 @@
 </template>
 
 <script>
+import aschJS from 'asch-js'
 import { create } from 'vue-modal-dialogs'
 import questiondialog from '../modal/questiondialog'
 
@@ -110,6 +111,19 @@ export default {
     nickname: function () {
       return this.$store.state.userInfo.nickname
     }
+  },
+  mounted: async function () {
+    console.log('mounted')
+    let that = this
+    let secret = this.$store.state.userInfo.secret
+
+    setTimeout(async function () {
+      let result = await that.$store.dispatch('getUserInfo', { that, secret, aschJS })
+      console.log('settimeout')
+      if (result.success && result.success === true) {
+        that.$noty.info('User balances was updated')
+      }
+    }, 10000)
   },
   methods: {
     setNickname: async function () {
