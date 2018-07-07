@@ -113,7 +113,6 @@ export default {
     }
   },
   mounted: async function () {
-    console.log('mounted')
     let that = this
     let secret = this.$store.state.userInfo.secret
 
