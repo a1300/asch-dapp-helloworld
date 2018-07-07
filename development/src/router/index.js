@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import home from '@/components/home/home'
-import register from '@/components/register/register'
 import login from '@/components/login/login'
 import account from '@/components/account/account'
 import transfer from '@/components/account/transfer'
@@ -19,11 +18,6 @@ let router = new Router({
       path: '/',
       name: 'home',
       component: home
-    },
-    {
-      path: '/register:domain?',
-      name: 'register',
-      component: register
     },
     {
       path: '/login',
@@ -66,7 +60,7 @@ let router = new Router({
 })
 
 router.beforeEach((to, from, next) => {
-  let forbiddenRoutes = ['/register', '/account', '/withdraw', '/transfer']
+  let forbiddenRoutes = ['/account', '/withdraw', '/transfer']
   let isLoggedIn = store.getters.isLoggedIn
   if (!isLoggedIn) {
     if (forbiddenRoutes.includes(to.path)) {
