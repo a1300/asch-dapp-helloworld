@@ -1,5 +1,4 @@
 module.exports = async function () {
-  console.log('enter dapp init')
 
   app.registerContract(1000, 'domain.register')
   app.registerContract(1001, 'domain.set_ip')

@@ -178,7 +178,6 @@ export default {
     for (let i = 0; i < sendTransfers.transfers.length; ++i) {
       this.transfers.push(sendTransfers.transfers[i])
     }
-    console.log(sendTransfers)
   },
   validations: {
     recipientAddress: {

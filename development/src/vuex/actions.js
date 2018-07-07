@@ -15,7 +15,6 @@ let actions = {
     try {
       let result = await that.$axios.get(loginUrl + address)
       if (result.status === 200) {
-        console.log(result.data)
         let balances = result.data.account.balances
         let nickname = ''
         if (result.data.account.extra && result.data.account.extra.str1) {
