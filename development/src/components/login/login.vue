@@ -8,7 +8,7 @@
           <sui-header-content>Log-in to your account</sui-header-content>
         </h2>
 
-        <sui-form v-on:submit.prevent="onSubmit">
+        <sui-form v-on:submit.prevent>
           <sui-segment stacked>
             <sui-form-field>
               <label v-show="!$v.secret.$invalid" for="secret">Secret</label>
@@ -62,9 +62,6 @@ export default {
       } else {
         this.$noty.error('Could not load user data')
       }
-    },
-    onSubmit: function () {
-      console.log('trying to prevent on submit')
     }
   },
   validations: {

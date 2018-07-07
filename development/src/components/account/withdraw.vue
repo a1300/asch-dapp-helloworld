@@ -3,7 +3,7 @@
     <br/>
     <div class="ui segment">
       <h3>Withdraw</h3>
-      <sui-form v-on:submit.prevent="submit">
+      <sui-form v-on:submit.prevent>
         <sui-form-field>
           <label v-show="!$v.selectedCoin.$invalid">Currency</label>
           <label v-show="$v.selectedCoin.$invalid" style="color: rgb(219, 40, 40)">Invalid currency</label>
@@ -114,8 +114,6 @@ export default {
     }
   },
   methods: {
-    submit: function () {
-    },
     withdraw: async function () {
       let answer = await areYouSure({
         title: 'Confirm',

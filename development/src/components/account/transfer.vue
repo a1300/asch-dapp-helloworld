@@ -4,7 +4,7 @@
     <br/>
     <div class="ui segment">
 
-      <sui-form v-on:submit.prevent="submit">
+      <sui-form v-on:submit.prevent>
         <sui-form-field>
           <label>Sender</label>
           <sui-input disabled
@@ -167,8 +167,6 @@ export default {
           this.$noty.error(`<b>${result.error}</b>`)
         }
       }
-    },
-    submit: function () {
     }
   },
   created: async function () {
