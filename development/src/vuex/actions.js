@@ -2,8 +2,6 @@ let loginUrl = '/accounts/'
 let unsignedTransactionsPost = '/transactions/unsigned'
 let signedTransactionsPost = '/transactions/signed'
 let transactionsUrl = '/transactions'
-let domainUrl = '/domain/'
-let postfixUrl = '/domain/suffix/'
 let transfersUrl = '/transfers'
 
 const UNDEFINED_ERROR = 'An undefined error occured!'
@@ -58,83 +56,6 @@ let actions = {
       }
     } catch (err) {
       console.log(err)
-      return { success: false, error: UNDEFINED_ERROR }
-    }
-  },
-
-  async registerDomain ({ commit, state }, { that, domain }) {
-    try {
-      let data = {
-        secret: state.userInfo.secret,
-        fee: '10000000',
-        type: 1000,
-        args: JSON.stringify([domain])
-      }
-      let jsonData = JSON.stringify(data)
-      let result = await that.$axios.put(unsignedTransactionsPost, jsonData, {
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      })
-      if (result.status === 200) {
-        return result.data
-      } else {
-        return { success: false, error: REQUEST_ERROR }
-      }
-    } catch (err) {
-      console.log(err)
-      return { success: false, error: UNDEFINED_ERROR }
-    }
-  },
-
-  async setIp ({ commit, state }, { that, domain, ip }) {
-    try {
-      let data = {
-        secret: state.userInfo.secret,
-        fee: '10000000',
-        type: 1001,
-        args: JSON.stringify([domain, ip])
-      }
-      let jsonData = JSON.stringify(data)
-      let result = await that.$axios.put(unsignedTransactionsPost, jsonData, {
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      })
-      if (result.status === 200) {
-        return result.data
-      } else {
-        return { success: false, error: REQUEST_ERROR }
-      }
-    } catch (err) {
-      console.log(err)
-      return { success: false, error: UNDEFINED_ERROR }
-    }
-  },
-
-  async searchDomain ({ commit, state }, { that, domain }) {
-    try {
-      let result = await that.$axios.get(domainUrl + domain)
-      if (result.status === 200) {
-        return result.data
-      } else {
-        return { success: false, error: REQUEST_ERROR }
-      }
-    } catch (err) {
-      console.error(err)
-      return { success: false, error: UNDEFINED_ERROR }
-    }
-  },
-  async searchPostfix ({ commit, state }, { that, postfix }) {
-    try {
-      let result = await that.$axios.get(postfixUrl + postfix)
-      if (result.status === 200) {
-        return result.data
-      } else {
-        return { success: false, error: REQUEST_ERROR }
-      }
-    } catch (err) {
-      console.error(err)
       return { success: false, error: UNDEFINED_ERROR }
     }
   },

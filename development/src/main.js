@@ -6,6 +6,7 @@ import router from './router'
 import SuiVue from 'semantic-ui-vue'
 import store from './vuex/store'
 import axios from 'axios'
+// eslint-disable-next-line
 import aschJS from 'asch-js'
 import Tooltip from 'vue-directive-tooltip'
 import 'vue-directive-tooltip/css/index.css'
@@ -27,7 +28,6 @@ Vue.use(VueNoty, {
 })
 Vue.use(Vuelidate)
 
-console.log(aschJS)
 Vue.use(SuiVue)
 Vue.config.productionTip = false
 
