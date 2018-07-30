@@ -234,24 +234,12 @@ app.route.get('/like', async function (req) {
 
 })
 
-// NOT LIKE
-app.route.get('/notlike', async function (req) {
 
-  let option = {
-    condition: {
-      str1: {
-        $nLike: 'z%'
-      }
-    }
-  }
-  return await app.model.Account.findAll(option)
-
-})
 
 // LESS THAN
 app.route.get('/lessthan', async function (req) {
 
-  let options = {
+  let option = {
     condition: {
       height: {
         $lt: 10
@@ -265,7 +253,7 @@ app.route.get('/lessthan', async function (req) {
 //LESS THAN OR EQUAL
 app.route.get('/lessthanorequal', async function (req) {
 
-  let options = {
+  let option = {
     condition: {
       height: {
         $lte: 20
@@ -279,7 +267,7 @@ app.route.get('/lessthanorequal', async function (req) {
 //GREATER THAN
 app.route.get('/gt', async function (req) {
 
-  let options = {
+  let option = {
     condition: {
       height: {
         $gt: 30
@@ -295,7 +283,7 @@ app.route.get('/gt', async function (req) {
 
 app.route.get('/gte', async function (req) {
 
-  let options = {
+  let option = {
     condition: {
       height: {
         $gte: 40
