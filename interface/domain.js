@@ -60,14 +60,19 @@ app.route.get('/findall', async function (req) {
   $or and $and works with count(*), vexists(),
 */
 // hardcondition
-app.route.get('/hardcondition', async function (req) {
-  let condition = {
-    $or: {
-      timestamp: 0,
-      delegate: '452df9213aedb3b9fed6db3e2ea9f49d3db226e2dac01828bc3dcd73b7a953b4'
+app.route.get('/hardcondition', async function (req) { 
+  let option = {
+    condition: {
+      height: {
+        $lt: 20,
+        $gt: 15
+      },
+      count: {
+        $ne: 1
+      }
     }
   }
-  return await app.model.Block.count(condition)
+  return await app.model.Block.findAll(option)
 })
 
 // fields1
@@ -168,6 +173,7 @@ app.route.get('/offset2', async function (req) {
 
 /*    QUERY OPERATORS */
 
+// all worked!!  
 /* AND */
 
 app.route.get('/and', async function (req) {
