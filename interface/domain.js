@@ -307,8 +307,106 @@ app.route.get('/gte', async function (req) {
 })
 
 
+// where in
+app.route.get('/wherein', async function (req) {
 
-// WHERE IN
+  let num = [1, 2, 3]
+  let option = {
+    condition: {
+      height: { 
+        $in: num
+      }
+    }
+  }
+  return await app.model.Block.findAll(option)
+
+})
+
+// where not in
+app.route.get('/wherenotin', async function (req) {
+
+  let num = [4, 5]
+  let option = {
+    condition: {
+      height: {
+        $nin: num
+      }
+    }
+  }
+  return await app.model.Block.findAll(option)
+
+})
+
+// is null 1
+app.route.get('/isnull1', async function (req) {
+
+  let option = {
+    condition: {
+      str1: {
+        $is: null
+      }
+    }
+  }
+  return await app.model.Account.findAll(option)
+
+})
+
+// is null 2
+app.route.get('/isnull2', async function (req) {
+
+  let option = {
+    condition: {
+      str1: {
+        $null: true
+      }
+    }
+  }
+  return await app.model.Account.findAll(option)
+
+})
+
+
+// IS NOT NULL 1
+app.route.get('/isnotnull1', async function (req) {
+
+  let option = {
+    condition: {
+      str1: {
+        $isNot: null
+      }
+    }
+  }
+  return await app.model.Account.findAll(option)
+
+})
+
+// IS NOT NULL 2
+app.route.get('/isnotnull2', async function (req) {
+
+  let option = {
+    condition: {
+      str1: {
+        $null: false
+      }
+    }
+  }
+  return await app.model.Account.findAll(option)  
+
+})
+
+// between
+app.route.get('/between', async function (req) {
+
+  let option = {
+    condition: {
+      height: {
+        $between: [1, 10]
+      }
+    }
+  }
+  return await app.model.Block.findAll(option)  
+
+})
 
 
 
