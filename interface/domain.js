@@ -360,7 +360,7 @@ app.route.get('/isnotnull1', async function (req) {
   let option = {
     condition: {
       str1: {
-        $isNot: null
+        $isnot: null
       }
     }
   }
