@@ -53,30 +53,21 @@ app.route.get('/findall', async function (req) {
 /*  query options  */
 
 // DOES NOT WORK!!!
+// {"error":"Error: Unknown operator \"timestamp\"","success":false}
+/*
+  $or and $and does not work with
+  findAll, findOne
+  $or and $and works with count(*), vexists(),
+*/
 // hardcondition
 app.route.get('/hardcondition', async function (req) {
-  let option = {
-    condition: {
-      $and: [{
-          $or: {
-            timestamp: 30000,
-            delegate: '452df9213aedb3b9fed6db3e2ea9f49d3db226e2dac01828bc3dcd73b7a953b4'
-          },
-        },
-        {
-          height: {
-            $lt: 244233,
-            $gt: 200000
-          },
-        },
-        {
-          count: {
-            $ne: 22
-          }
-        }]
+  let condition = {
+    $or: {
+      timestamp: 0,
+      delegate: '452df9213aedb3b9fed6db3e2ea9f49d3db226e2dac01828bc3dcd73b7a953b4'
     }
   }
-  return await app.model.Block.findAll(option)
+  return await app.model.Block.count(condition)
 })
 
 // fields1
@@ -153,7 +144,6 @@ app.route.get('/offset2', async function (req) {
     }
   }
   return await app.model.Block.findAll(option)
-
 })
 
 
@@ -172,6 +162,153 @@ app.route.get('/offset2', async function (req) {
 
 
 
+
+
+
+
+/*    QUERY OPERATORS */
+
+/* AND */
+
+app.route.get('/and', async function (req) {
+
+  let options = {
+    condition: {
+      height: 1,
+      timestamp: 0
+    }
+  }
+  return await app.model.Block.findAll(options)
+
+})
+
+app.route.get('/equal1', async function (req) {
+
+  let options = {
+    condition: {
+      str1: 'liangpeili'
+    }
+  }
+  return await app.model.Account.findOne(options)
+
+})
+
+app.route.get('/equal2', async function (req) {
+
+  let options = {
+    condition: {
+      str1: {
+        $eq: 'liangpeili'
+      }
+    }
+  }
+  return await app.model.Account.findOne(options)
+
+})
+
+
+app.route.get('/notequal', async function (req) {
+
+  let options = {
+    condition: {
+      address: {
+        $ne: 'AHMCKebuL2nRYDgszf9J2KjVZzAw95WUyB'
+      }
+    }
+  }
+  return await app.model.Account.findAll(options)
+
+})
+
+
+app.route.get('/like', async function (req) {
+  
+  let option = {
+    condition: {
+      str1: {
+        $like: 'a%'
+      }
+    }
+  }
+  return await app.model.Account.findAll(option)  
+
+})
+
+// NOT LIKE
+app.route.get('/notlike', async function (req) {
+
+  let option = {
+    condition: {
+      str1: {
+        $nLike: 'z%'
+      }
+    }
+  }
+  return await app.model.Account.findAll(option)
+
+})
+
+// LESS THAN
+app.route.get('/lessthan', async function (req) {
+
+  let options = {
+    condition: {
+      height: {
+        $lt: 10
+      }
+    }
+  }
+  return await app.model.Block.findAll(option)
+
+})
+
+//LESS THAN OR EQUAL
+app.route.get('/lessthanorequal', async function (req) {
+
+  let options = {
+    condition: {
+      height: {
+        $lte: 20
+      }
+    }
+  }
+  return await app.model.Block.findAll(option)
+
+})
+
+//GREATER THAN
+app.route.get('/gt', async function (req) {
+
+  let options = {
+    condition: {
+      height: {
+        $gt: 30
+      }
+    }
+  }
+  return await app.model.Block.findAll(option)
+
+})
+
+
+// GREATER THAN OR EQUAL
+
+app.route.get('/gte', async function (req) {
+
+  let options = {
+    condition: {
+      height: {
+        $gte: 40
+      }
+    }
+  }
+  return await app.model.Block.findAll(option)
+
+})
+
+
+
+// WHERE IN
 
 
 
