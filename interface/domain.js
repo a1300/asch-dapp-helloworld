@@ -52,26 +52,31 @@ app.route.get('/findall', async function (req) {
 
 /*  query options  */
 
+// DOES NOT WORK!!!
 // hardcondition
 app.route.get('/hardcondition', async function (req) {
   let option = {
     condition: {
-      $and: {
-        $or: {
-          timestamp: 30000,
-          delegate: '452df9213aedb3b9fed6db3e2ea9f49d3db226e2dac01828bc3dcd73b7a953b4'
+      $and: [{
+          $or: {
+            timestamp: 30000,
+            delegate: '452df9213aedb3b9fed6db3e2ea9f49d3db226e2dac01828bc3dcd73b7a953b4'
+          },
         },
-        height: {
-          $lt: 244233,
-          $gt: 200000
+        {
+          height: {
+            $lt: 244233,
+            $gt: 200000
+          },
         },
-        count: {
-          $ne: 22
-        }
-      }
+        {
+          count: {
+            $ne: 22
+          }
+        }]
     }
   }
-  return app.model.Block.findAll(option)
+  return await app.model.Block.findAll(option)
 })
 
 // fields1
@@ -102,7 +107,7 @@ app.route.get('/sortasc', async function (req) {
       height: 1
     }
   }
-  return await app.model.Block.findAll(options)
+  return await app.model.Block.findAll(option)
 })
 
 // sort desc
@@ -112,27 +117,28 @@ app.route.get('/sortdesc', async function (req) {
       height: -1
     }
   }
-  return await app.model.Block.findAll(options)
+  return await app.model.Block.findAll(option)
 })
 
 
 // limit
 app.route.get('/limit', async function (req) {
-let option = {
-  limit: 100
-}
-return await app.model.Block.findAll(option)
+  let option = {
+    limit: 3
+  }
+  return await app.model.Block.findAll(option)
 })
 
 // offset1
 app.route.get('/offset1', async function (req) {
-let option = {
-  offset: 0,
-  sort: {
-    height: 1
+  let option = {
+    offset: 0,
+    limit: 50,
+    sort: {
+      height: 1
+    }
   }
-}
-return await app.model.Block.findAll(option)
+  return await app.model.Block.findAll(option)
 })
 
 
@@ -141,6 +147,7 @@ app.route.get('/offset2', async function (req) {
 
   let option = {
     offset: 50,
+    limit: 50,
     sort: {
       height: 1
     }
