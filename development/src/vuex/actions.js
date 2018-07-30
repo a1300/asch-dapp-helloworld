@@ -191,6 +191,7 @@ let actions = {
 
   async dappWithdrawal ({ commit, state }, { that, aschJS, coin, amount }) {
     try {
+      console.log(`coin to withdraw: "${coin}`)
       let secret = that.$store.getters.secret
       let data = {
         fee: '10000000',
